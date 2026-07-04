@@ -38,7 +38,7 @@ def old_market_home():
     <body style="font-family: Arial; text-align: center; margin-top: 50px; background: #121212; color: #fff;">
         <h1>Old Market Store</h1>
         <p>Скачайте официальный APK-клиент магазина приложений:</p>
-        <a href="https://githubusercontent.com" style="background: #00ffcc; color: #000; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 18px;">СКАЧАТЬ APK</a>
+        <a href="https://github.com/Giga50/stored_apps" style="background: #00ffcc; color: #000; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 18px;">СКАЧАТЬ APK</a>
     </body>
     </html>
     '''
