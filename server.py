@@ -1,17 +1,3 @@
-from flask import redirect
-
-@app.route('/')
-def old_market_home():
-    return f'''
-    <html>
-    <head><title>Old Market Client</title></head>
-    <body style="font-family: Arial; text-align: center; margin-top: 50px; background: #121212; color: #fff;">
-        <h1>Old Market Store</h1>
-        <p>Скачайте официальный APK-клиент магазина приложений:</p>
-        <a href="https://githubusercontent.com" style="background: #00ffcc; color: #000; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 18px;">СКАЧАТЬ APK</a>
-    </body>
-    </html>
-    '''
 import os
 import re
 import json
@@ -42,6 +28,20 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
 BANNERS_DIR = os.environ.get("BANNERS_DIR", os.path.join("html", "banners"))
 os.makedirs(BANNERS_DIR, exist_ok=True)
 db = SQLAlchemy(app)
+from flask import redirect
+
+@app.route('/')
+def old_market_home():
+    return f'''
+    <html>
+    <head><title>Old Market Client</title></head>
+    <body style="font-family: Arial; text-align: center; margin-top: 50px; background: #121212; color: #fff;">
+        <h1>Old Market Store</h1>
+        <p>Скачайте официальный APK-клиент магазина приложений:</p>
+        <a href="https://githubusercontent.com" style="background: #00ffcc; color: #000; padding: 15px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 18px;">СКАЧАТЬ APK</a>
+    </body>
+    </html>
+    '''
 #Admin settings
 ADMIN_PASSWORD = os.environ.get("passwd", "passwd")
 ADMIN_ALLOWED_IPS = set((os.environ.get("OLDMARKET_ADMIN_ALLOWED_IPS", "144.31.197.62,144.31.16.165").split(",")))
