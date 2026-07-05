@@ -2730,6 +2730,55 @@ def init_db():
         db.session.add(test_user)
         db.session.commit()
 if __name__ == '__main__':
+# === УНИВЕРСАЛЬНОЕ СКАЧИВАНИЕ ЛЮБЫХ APK ИЗ РЕПОЗИТОРИЯ STORED_APPS ===
+import requests
+from flask import Response, abort
+
+@app.route('/download/<filename>')
+def download_any_apk(filename):
+    # Проверяем, что запрашивают именно APK файл в целях безопасности
+    if not filename.endswith('.apk'):
+        return abort(400, "Можно скачивать только .apk файлы")
+        
+    # Формируем ссылку на нужный файл в вашем репозитории stored_apps
+    github_raw_url = f"https://githubusercontent.com{filename}"
+    
+    try:
+        req = requests.get(github_raw_url, stream=True)
+        # Если файла с таким именем нет на Гитхабе, выдаем ошибку 404
+        if req.status_code == 404:
+            return abort(404, f"Файл {filename} не найден в хранилище stored_apps")
+            
+        return Response(
+            req.iter_content(chunk_size=1024),
+            content_type='application/vnd.android.package-archive',
+            headers={"Content-Disposition": f"attachment; filename={filename}"}
+        )
+    except Exception as e:
+        return f"Ошибка сервера при скачивании файла: {e}", 500
+
+
+if __name__ == '__main__':
+    with app.app_context():
+        init_db()
+        print(f"Total downloads in database: {Download.query.count()}")
+        db.session.execute(text("PRAGMA journal_mode=WAL;"))
+        db.session.execute(text("PRAGMA foreign_keys=ON;"))
+        db.session.commit()
+
+    tg_thread = threading.Thread(
+        target=start_telegram_polling,
+        daemon=True
+    )
+    tg_thread.start()
+    print("[TG] Telegram polling started")
+    app.run(
+        host='0.0.0.0',
+        port=10000,
+        debug=False,
+        threaded=True
+    )
+
     with app.app_context():
         init_db()
         print(f"Total downloads in database: {Download.query.count()}")
